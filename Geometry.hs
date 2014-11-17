@@ -1,39 +1,39 @@
 module Geometry
 ( Shape(..)
-, Point (..)
-, Vector(..)
-, Ray(..)
 , LocalGeometry(..)
+, Ray(..)
 , intersect
 ) where
 
-data Point = Point { xCoord :: Float
-                   , yCoord :: Float
-                   , zCoord :: Float
-                   } deriving (Show)
+import Numeric.Matrix
 
-data Vector = Vector { xComp :: Float
-                     , yComp :: Float
-                     , zComp :: Float
-                     } deriving (Show)
+data Shape = Sphere { center :: Matrix Double
+                    , radius :: Double
+                    } deriving (Show)
 
-data Shape = Circle Point Float deriving (Show)
-
-data Ray = Ray { point :: Point
-               , direction :: Vector
+data Ray = Ray { position :: Matrix Double
+               , direction :: Matrix Double
                } deriving (Show)
 
-data LocalGeometry = LocalGeometry { surfacePoint :: Point
-                                   , normal :: Vector
+data LocalGeometry = LocalGeometry { surfacePoint :: Matrix Double
+                                   , normal :: Matrix Double
                                    } deriving (Show)
 
--- Add function here for calculating the value of t for which the ray intersects
--- the sphere object.
+-- Makes no assumption about length.
+dotProd x y = at (times (transpose x) (y)) (1,1)
 
 {-
   Return LocalGeometry object if we actually hit something from the outside.
 -}
-intersect :: Shape -> Ray -> (Maybe LocalGeometry)
-intersect _ _ = Just tempGeo
-  where 
-    tempGeo = LocalGeometry (Point 0 0 0) (Vector 1 0 0)
+intersect :: Shape -> Ray -> (Maybe Double)
+intersect shape ray
+  | middleTerm > 0 && t0 > 0 = Just t0
+  | otherwise = Nothing
+    where 
+      a = dotProd (direction ray) (direction ray)
+      b = dotProd (scale (direction ray) 2.0) (position ray - center shape)
+      c = (dotProd (position ray - center shape) 
+          (position ray - center shape)) - (radius shape) ^ 2
+      middleTerm = b ^ 2 - 4.0 * a * c
+      otherTerm = sqrt middleTerm
+      t0 = (-b - otherTerm) / (2 * a)

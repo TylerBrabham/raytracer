@@ -4,11 +4,13 @@ module RayTracer
 , traceScene
 ) where
 
+import Numeric.Matrix
+
 import Scene
 import Geometry
 
-data Camera = Camera { position :: Point
-                     , direction :: Vector
+data Camera = Camera { position :: Matrix Double
+                     , direction :: Matrix Double
                      } deriving (Show)
 
 data RayTracer = RayTracer { scene :: Scene

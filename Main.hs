@@ -1,12 +1,15 @@
 import Geometry
 import Scene
 import RayTracer
+import Numeric.Matrix
 
 main = do
-  let center = Point 0 0 0
-      circle = Circle center 5
-      ray = Ray center (Vector 1 0 0)
-      camera = Camera (Point 0 0 0) (Vector 1 0 0)
-      scene = Scene [circle] []
+  let rayOrigin = fromList [[0], [0], [2]]
+      rayDirection = fromList [[0], [0], [-1]]
+      sphereCenter = fromList [[0], [0], [0]] 
+      sphereRadius = 1.0
 
-  print $ scene
+      ray = Ray rayOrigin rayDirection
+      sphere = Sphere sphereCenter sphereRadius
+
+  print $ intersect sphere ray

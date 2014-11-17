@@ -3,10 +3,11 @@ module Scene
 , Light(..)
 ) where
 
-import Geometry hiding (direction, position)
+import Geometry
+import Numeric.Matrix
 
-data Light = Light { position :: Point
-                   , direction :: Vector
+data Light = Light { position :: Matrix Double
+                   , direction :: Matrix Double
                    } deriving (Show)
 
 -- Add lights.
