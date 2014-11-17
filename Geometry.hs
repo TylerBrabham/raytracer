@@ -3,6 +3,7 @@ module Geometry
 , LocalGeometry(..)
 , Ray(..)
 , intersect
+, hit
 ) where
 
 import Numeric.Matrix
@@ -22,12 +23,23 @@ data LocalGeometry = LocalGeometry { surfacePoint :: Matrix Double
 -- Makes no assumption about length.
 dotProd x y = at (times (transpose x) (y)) (1,1)
 
+hit :: (Maybe LocalGeometry) -> Bool
+hit (Just x) = True
+hit Nothing = False
+
+sphereLocalGeometry t ray sphere = LocalGeometry x y
+  where
+    x = (scale (direction ray) t) + (position ray)
+    y = x - (center sphere)
+
 {-
-  Return LocalGeometry object if we actually hit something from the outside.
+  Return LocalGeometry object if we actually hit something from the outside. 
+  Use Maybe so that the caller to this function is required to check that 
+  something was actually hit.
 -}
-intersect :: Shape -> Ray -> (Maybe Double)
-intersect shape ray
-  | middleTerm > 0 && t0 > 0 = Just t0
+intersect :: Ray -> Shape -> (Maybe LocalGeometry)
+intersect ray shape
+  | middleTerm > 0 && t0 > 0 = Just (sphereLocalGeometry t0 ray shape)
   | otherwise = Nothing
     where 
       a = dotProd (direction ray) (direction ray)
