@@ -28,9 +28,8 @@ hit (Just x) = True
 hit Nothing = False
 
 sphereLocalGeometry t ray sphere = LocalGeometry x y
-  where
-    x = (scale (direction ray) t) + (position ray)
-    y = x - (center sphere)
+  where x = (scale (direction ray) t) + (position ray)
+        y = x - (center sphere)
 
 {-
   Return LocalGeometry object if we actually hit something from the outside. 
