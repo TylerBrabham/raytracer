@@ -19,6 +19,7 @@ data RayTracer = RayTracer { scene :: Scene
                            , camera :: Camera
                            } deriving (Show)
 
+-- This function can be replaced with a built in one. Check Maybe package.
 extractMaybe (Just a) = a
 
 -- Private helper method to trace a single ray at a time. This should not 
