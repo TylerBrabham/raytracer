@@ -5,35 +5,37 @@ module RayTracer
 , trace
 ) where
 
-import Numeric.Matrix hiding (map, trace)
-
-import Scene
+import Data.Maybe
 import Geometry
+import Numeric.Matrix hiding (map, trace)
+import Scene
 
--- Should add screen to camera, the actual pixels that the rays travel through
+-- Should add screen to camera, the actual pixels that the rays travel through.
+-- A cool thing would be to make something like:
+--   Screen :: RayGenerator -> (Int, Int) -> Ray
+-- In this way, a screen is not just four vertices defining the corners of a 
+-- rectangular screen, but instead a function that generates a ray whenever 
+-- one is requested.
 data Camera = Camera { position :: Matrix Double
                      , direction :: Matrix Double
                      } deriving (Show)
 
+-- Add deriving show for this type
 data RayTracer = RayTracer { scene :: Scene
-                           , camera :: Camera
-                           } deriving (Show)
+                           , rayGenerator :: RayGenerator
+                           }
 
--- This function can be replaced with a built in one. Check Maybe package.
-extractMaybe :: Maybe a -> a
-extractMaybe (Just a) = a
+-- StandardScreen is a screen at [-1, 1] X [-1, 1] in the xy place.
+data RayGenerator = StandardScreen { camera :: Camera } 
+                  | SphereLens { camera :: Camera}
 
--- Private helper method to trace a single ray at a time. This should not 
--- actually return a bool. Instead, we should get a list of Maybe LocalGeometry
--- objects and then filterM over them to get a Maybe List. And finally, we 
--- should find the closest shape in the MaybeList, calculate the brdf/rgb values
--- and pass the result along to a function to add the values together.
+-- A function which gives a ray when requested.
+generateRay :: RayGenerator -> (Int, Int) -> Ray
+generateRay = undefined
+
+-- Get a list of possible hits and map them to actual values using mapMaybe
 trace :: Ray -> Scene -> [LocalGeometry]
-trace ray sc = map extractMaybe actualHits
-  where 
-    possibleHits = map (intersect ray) (shapes sc)
-    actualHits = filter (hit) possibleHits
-
+trace ray sc = mapMaybe (intersect ray) (shapes sc)
 
 -- Primary method to trace every vector
 traceScene :: RayTracer -> Bool
