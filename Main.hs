@@ -3,6 +3,7 @@ import Scene
 import RayTracer
 import Numeric.Matrix hiding (trace)
 
+main :: IO ()
 main = do
   let rayOrigin = fromList [[0], [0], [2]]
       rayDirection = fromList [[0], [0], [-1]]

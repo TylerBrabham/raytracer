@@ -21,12 +21,14 @@ data LocalGeometry = LocalGeometry { surfacePoint :: Matrix Double
                                    } deriving (Show)
 
 -- Makes no assumption about length.
+dotProd :: Matrix Double -> Matrix Double -> Double
 dotProd x y = at (times (transpose x) (y)) (1,1)
 
 hit :: (Maybe LocalGeometry) -> Bool
-hit (Just x) = True
+hit (Just _) = True
 hit Nothing = False
 
+sphereLocalGeometry :: Double -> Ray -> Shape -> LocalGeometry
 sphereLocalGeometry t ray sphere = LocalGeometry x y
   where x = (scale (direction ray) t) + (position ray)
         y = x - (center sphere)
