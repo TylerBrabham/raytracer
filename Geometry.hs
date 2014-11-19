@@ -7,6 +7,7 @@ module Geometry
 
 import Numeric.Matrix
 import MathUtil
+import BRDF
 
 data Shape = Sphere { center :: Matrix Double
                     , radius :: Double 
@@ -18,12 +19,14 @@ data Ray = Ray { position :: Matrix Double
 
 data LocalGeometry = LocalGeometry { surfacePoint :: Matrix Double
                                    , normal :: Matrix Double
+                                   , localTime :: Double
                                    } deriving (Show)
 
 sphereLocalGeometry :: Double -> Ray -> Shape -> LocalGeometry
-sphereLocalGeometry t ray sphere = LocalGeometry x y
+sphereLocalGeometry t ray sphere = LocalGeometry x y t
   where x = (scale (direction ray) t) + (position ray)
-        y = x - (center sphere)
+        vec = x - (center sphere)
+        y = normalize vec
 
 -- Return LocalGeometry object if we actually hit something from the outside. 
 -- Use Maybe so that the caller to this function is required to check that 

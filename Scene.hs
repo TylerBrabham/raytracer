@@ -6,9 +6,8 @@ module Scene
 import Geometry
 import Numeric.Matrix
 
-data Light = Light { position :: Matrix Double
-                   , direction :: Matrix Double
-                   } deriving (Show)
+data Light = PointLight (Matrix Double)
+           | DirectionalLight (Matrix Double) deriving (Show)
 
 -- Add lights.
 data Scene = Scene { shapes :: [Shape]

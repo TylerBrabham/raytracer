@@ -12,7 +12,7 @@ dotProd x y = at (times (transpose x) (y)) (1,1)
 
 -- Doesn't check if the normal is nonzero
 normalize :: Matrix Double -> Matrix Double
-normalize x = scale x (1 / (norm x)) 
+normalize x = scale x (1.0 / (norm x)) 
 
 norm :: Matrix Double -> Double
 norm x = sqrt (dotProd x x)
