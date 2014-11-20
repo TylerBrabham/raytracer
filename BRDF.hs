@@ -2,4 +2,4 @@ module BRDF
 ( BRDF(..)
 ) where
 
-data BRDF = BRDF Double Double Double Double
+data BRDF = BRDF Double Double Double Double deriving (Show)
