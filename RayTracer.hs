@@ -54,8 +54,11 @@ traceRay :: Ray -> Scene -> [LocalGeometry]
 traceRay ray sc = mapMaybe (intersect ray) (shapes sc)
 
 -- This method will only work for direction lights.
-visibleLight :: Ray -> Light -> Bool
-visibleLight = undefined
+visibleLight :: Ray -> Scene -> Light -> Bool
+visibleLight r s l = traceRay ray s 
+
+-- Use multi filter, filtering over (Ray, Light) or something like that.
+visibleLights = undefined
 
 -- For the ray, call trace, generate a reflected ray, repeat.
 hitSequence :: Ray -> Scene -> Int -> [LocalGeometry]

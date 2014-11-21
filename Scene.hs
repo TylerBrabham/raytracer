@@ -13,3 +13,8 @@ data Light = PointLight (Matrix Double)
 data Scene = Scene { shapes :: [Shape]
                    , lights :: [Light]
                    } deriving (Show)
+
+-- Must pass in position as first argument.
+rayToLight :: (Matrix Double) -> Light -> Ray
+rayToLight pos (DirectionalLight direction) = Ray pos (-1.0 * direction)
+rayToLight pos (PointLight lightPos) = Ray pos (lightPos - pos)
