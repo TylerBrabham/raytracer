@@ -3,11 +3,14 @@ module Geometry
 , LocalGeometry(..)
 , Ray(..)
 , intersect
+, createReflectedRay
+, firstHit
 ) where
 
 import Numeric.Matrix
 import MathUtil
 import BRDF
+import Util
 
 data Shape = Sphere { center :: Matrix Double
                     , radius :: Double 
@@ -42,3 +45,14 @@ intersect ray shape
       middleTerm = b ^ 2 - 4.0 * a * c
       otherTerm = sqrt middleTerm
       t0 = (-b - otherTerm) / (2 * a)
+
+createReflectedRay :: Ray -> LocalGeometry -> Ray
+createReflectedRay ray geo = Ray x y
+  where 
+    x = surfacePoint geo
+    y = l + 2 * (dotProd l n) * n
+    n = normal geo
+    l = direction ray
+
+firstHit :: [LocalGeometry] -> LocalGeometry
+firstHit geos = argMin localTime geos

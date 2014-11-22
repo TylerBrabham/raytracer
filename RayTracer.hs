@@ -43,15 +43,6 @@ generateRay (StandardScreen (Camera p _ (r, s))) (x, y) =
       x' = -1.0 + 2.0 * (x + 0.5) / r
       y' = -1.0 + 2.0 * (y + 0.5) / s
 
-createReflectedRay :: Ray -> LocalGeometry -> Ray
-createReflectedRay ray lg = Ray x y
-  where 
-    x = surfacePoint
-    y = undefined
-
-firstHit :: [LocalGeometry] -> LocalGeometry
-firstHit = undefined
-
 -- Get a list of possible hits and map them to actual values using mapMaybe
 traceRay :: Ray -> Scene -> [LocalGeometry]
 traceRay ray sc = mapMaybe (intersect ray) (shapes sc)
