@@ -29,6 +29,9 @@ data RayTracer = RayTracer { scene :: Scene
 -- StandardScreen is a screen at [-1, 1] X [-1, 1] in the xy place.
 data RayGenerator = StandardScreen Camera
 
+calculateBRDFCoeff :: LocalGeometry -> Light
+calculateBRDFCoeff = undefined
+
 -- A function which gives a ray when requested. The resolution is doubles but
 -- really it should be ints. This currently doesn't take into account the 
 -- actual direction of the camera. It just assumes the camera facing towards
@@ -69,6 +72,16 @@ hitSequence ray sc iterationsLeft
         geos = traceRay ray sc
         geo = firstHit geos
         reflectedRay = createReflectedRay ray geo
+
+lightsSequence :: [LocalGeometry] -> [Lights]
+lightsSequence = undefined
+
+sumRGBGeo :: (Matrix Double) -> LocalGeometry -> (Matrix Double)
+sumRGBGeo = undefined
+
+-- Make an RGB class for this, otherwise it's a bit janky
+sumRGB :: [LocalGeometry] -> (Matrix Double)
+sumRGB geos = foldl sumRGBGeo (fromList [[0], [0], [0]]) geos
 
 -- Primary method to trace every vector. Create the list of indices for the 
 -- scene. Call map with a function hitSequence, which will essentially map 

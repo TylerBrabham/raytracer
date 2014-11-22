@@ -1,6 +1,7 @@
 module Scene
 ( Scene(..)
 , Light(..)
+, rayToLight
 ) where
 
 import Geometry
