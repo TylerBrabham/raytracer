@@ -9,7 +9,6 @@ module Geometry
 
 import Numeric.Matrix
 import MathUtil
-import BRDF
 import Util
 
 data Shape = Sphere { center :: Matrix Double
@@ -50,7 +49,8 @@ createReflectedRay :: Ray -> LocalGeometry -> Ray
 createReflectedRay ray geo = Ray x y
   where 
     x = surfacePoint geo
-    y = l + 2 * (dotProd l n) * n
+    y = l + (scale n s)
+    s = 2 * (dotProd l n)
     n = normal geo
     l = direction ray
 
