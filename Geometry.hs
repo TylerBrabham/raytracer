@@ -35,7 +35,7 @@ sphereLocalGeometry t ray sphere = LocalGeometry x y t
 -- something was actually hit.
 intersect :: Ray -> Shape -> (Maybe LocalGeometry)
 intersect ray shape
-  | middleTerm > 0 && t0 > 0 = Just (sphereLocalGeometry t0 ray shape)
+  | middleTerm > 0 && t0 > 0.001 = Just (sphereLocalGeometry t0 ray shape)
   | otherwise = Nothing
     where 
       a = (norm (direction ray)) ^ 2

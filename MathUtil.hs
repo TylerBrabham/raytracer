@@ -2,6 +2,7 @@ module MathUtil
 ( dotProd
 , norm
 , normalize
+, roundMatrix
 ) where
 
 import Numeric.Matrix
@@ -16,3 +17,6 @@ normalize x = scale x (1.0 / (norm x))
 
 norm :: Matrix Double -> Double
 norm x = sqrt (dotProd x x)
+
+roundMatrix :: (Matrix Double) -> (Matrix Int)
+roundMatrix mat = (Numeric.Matrix.map) round mat

@@ -2,7 +2,6 @@ module Util
 ( argMin
 ) where
 
-
 -- Non exhaustive
 argMin :: (Ord a) => (b -> a) -> [b] -> b
 argMin f (b : bs) = argMinHelper f (b : bs) (f b)
